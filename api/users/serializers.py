@@ -191,7 +191,7 @@ class ResetPasswordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['password', 'confirm_password']
+        fields = ['id', 'password', 'confirm_password']
 
     def validate(self, data):
         password = data.get('password')

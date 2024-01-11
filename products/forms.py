@@ -6,7 +6,7 @@ from products.models import Product
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ('name', 'photo', 'price')
+        fields = ('name', 'image', 'price')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -14,7 +14,7 @@ class ProductForm(forms.ModelForm):
             "placeholder": "name...",
             "class": 'form-control',
         })
-        self.fields['photo'].widget.attrs.update({
+        self.fields['image'].widget.attrs.update({
             "class": 'form-control',
         })
         self.fields['price'].widget.attrs.update({

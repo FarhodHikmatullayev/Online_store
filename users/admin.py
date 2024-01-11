@@ -10,6 +10,8 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+
+from products.models import Cart
 from .models import User
 from .forms import AccountChangeForm, AccountCreationForm
 
