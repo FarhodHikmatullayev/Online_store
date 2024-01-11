@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}Product List{% endblock %}
+
+{% block content %}
+
+    <form method="get" role="search" class="">
+        <div class="row justify-content-end">
+            <div class="col-4">
+                <input class="form-control" autocomplete="off" type="search" placeholder="search..." name="q">
+            </div>
+            <div class="col-1">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row mt-4">
+
+
+        <div class="col-md-12">
+            <div class="row">
+                {% if not object_list %}
+                    <h1>Nothing found</h1>
+                {% endif %}
+                {% for product in object_list %}
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 p-3">
+                        <div class="card">
+                            {% if product.photo %}
+                                <img src="{{ product.photo.url }}" class="card-img-top" alt="">
+                            {% else %}
+                                <img src="{% static 'image/noimage.png' %}" class="card-img-top" alt="...">
+                            {% endif %}
+
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="{% url 'product:detail' product.id %}"
+                                                          class="text-dark nav-link link-offset-1-hover">Name: {{ product.name }}</a>
+                                </h5>
+                                <code class="card-title"><a href="{% url 'product:detail' product.id %}"
+                                                            class="text-dark nav-link link-offset-1-hover">Price: {{ product.price }}</a>
+                                </code>
+
+
+                                <a href="{% url 'product:edit' product.id %}" class="btn btn-outline-info">edit</a>
+                                <a href="{% url 'product:delete' product.id %}"
+                                   class="btn btn-outline-danger">delete</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% include 'paginator.html' %}
+
+        </div>
+
+
+    </div>
+{% endblock %}

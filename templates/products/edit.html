@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}Product Update{% endblock %}
+
+{% block content %}
+    <div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div>
+                <button class="btn btn-primary" type="submit">Save</button>
+                <a type="button" class="btn btn-secondary" href="{% url 'product:detail' product.id %}">Cancel</a>
+            </div>
+
+        </form>
+
+    </div>
+{% endblock %}
