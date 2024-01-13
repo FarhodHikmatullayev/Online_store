@@ -139,7 +139,7 @@ class ProductDeleteApiView(APIView):
 
 
 # This is for cart
-class CartView(APIView):
+class CartAPIView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
@@ -148,7 +148,7 @@ class CartView(APIView):
         return Response(serializer.data, status=200)
 
 
-class AddToCartView(APIView):
+class AddToCartAPIView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, format=None):
@@ -168,7 +168,7 @@ class AddToCartView(APIView):
         return Response({'success': 'Product added to cart'})
 
 
-class CheckoutView(APIView):
+class CheckoutAPIView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, format=None):

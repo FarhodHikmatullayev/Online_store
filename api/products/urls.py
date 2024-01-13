@@ -1,8 +1,8 @@
 from django.urls import path
 
 from api.products.views import ProductCreateApiView, \
-    ProductUpdateApiView, ProductDeleteApiView, ProductDetailApiView, ProductListApiView, CartView, AddToCartView, \
-    CheckoutView
+    ProductUpdateApiView, ProductDeleteApiView, ProductDetailApiView, ProductListApiView, CartAPIView, AddToCartAPIView, \
+    CheckoutAPIView
 
 urlpatterns = [
     path('create/', ProductCreateApiView.as_view()),
@@ -12,7 +12,7 @@ urlpatterns = [
     path('list/', ProductListApiView.as_view()),
 
     # for cart
-    path('cart/', CartView.as_view(), name='cart'),
-    path('cart/add/', AddToCartView.as_view(), name='add-to-cart'),
-    path('cart/checkout/', CheckoutView.as_view(), name='checkout'),
+    path('cart/', CartAPIView.as_view(), name='cart'),
+    path('cart/add/', AddToCartAPIView.as_view(), name='add-to-cart'),
+    path('cart/checkout/', CheckoutAPIView.as_view(), name='checkout'),
 ]

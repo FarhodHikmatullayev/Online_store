@@ -35,6 +35,11 @@ body {
     transition: 0.3s;
 }
 
+.shorter-input {
+    height: 1px;
+    /* Additional styling properties */
+}
+
 /*header {*/
 /*    background-color: #9FBDC1;*/
 /*    padding: 20px 10px;*/
