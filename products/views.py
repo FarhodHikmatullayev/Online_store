@@ -1,11 +1,14 @@
+import stripe
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.views import View
+from django.views.generic import TemplateView
 
+from config import settings
 from .forms import ProductForm, QuantityForm
-from .models import Product, Cart, CartItem
+from .models import Product, Cart, CartItem, Category
 
 
 class ProductListView(View):
@@ -14,7 +17,7 @@ class ProductListView(View):
         search_name = request.GET.get('name', '')
         search_category = request.GET.get('category', '')
         search_price = request.GET.get('price')
-
+        categories = Category.objects.all()
         if search_name:
             products = products.filter(name__icontains=search_name)
         if search_category:
@@ -27,6 +30,7 @@ class ProductListView(View):
         page_obj = paginator.get_page(page_number)
 
         ctx = {
+            'categories': categories,
             'object_list': page_obj,
         }
 
@@ -153,9 +157,63 @@ class AddToCartView(LoginRequiredMixin, View):
         return redirect(request, 'products/cart/add_cart.html', ctx)
 
 
-class CheckOutView(LoginRequiredMixin, View):
-    def get(self, request):
+# class CheckOutView(LoginRequiredMixin, View):
+#     def get(self, request):
+#         cart, _ = Cart.objects.get_or_create(user=request.user)
+#         cart.cartitem_set.all().delete()
+#         messages.success(request, 'Order placed successfully')
+#         return redirect('product:cart')
+
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+
+class CreateStripeCheckoutSessionView(View):
+    """
+    Create a checkout session and redirect the user to Stripe's checkout page
+    """
+
+    def get(self, request, *args, **kwargs):
         cart, _ = Cart.objects.get_or_create(user=request.user)
+        cart_items = cart.cartitem_set.all()
+
+        line_items = []
+        for cart_item in cart_items:
+
+            item = {
+                "price_data": {
+                    "currency": "usd",
+                    "unit_amount": int(cart_item.product.price) * 100,
+                    "product_data": {
+                        "name": cart_item.product.name,
+                        "description": cart_item.product.description,
+                        # "images": [
+                        #     request.build_absolute_uri(cart_item.product.image.url)
+                        # ],
+                    },
+                },
+                "quantity": cart_item.quantity,
+            }
+            if cart_item.product.image:
+                image = [request.build_absolute_uri(cart_item.product.image.url)]
+                item['price_data']['product_data']['images'] = image
+            line_items.append(item)
+
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=line_items,
+            mode="payment",
+            success_url=settings.PAYMENT_SUCCESS_URL,
+            cancel_url=settings.PAYMENT_CANCEL_URL,
+        )
         cart.cartitem_set.all().delete()
         messages.success(request, 'Order placed successfully')
-        return redirect('product:cart')
+        return redirect(checkout_session.url)
+
+
+class SuccessView(TemplateView):
+    template_name = "products/cart/success.html"
+
+
+class CancelView(TemplateView):
+    template_name = "products/cart/cancel.html"

@@ -2,23 +2,34 @@
 
 
 {% block content %}
-
-    <ol class="list-group list-group-numbered">
-        {% for item in cart.cartitem_set.all %}
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">{{ item.product.name }}
-                        <code> at {{ item.updated_time }}</code>
+    {% if cart.cartitem_set.all %}
+        <ol class="list-group list-group-numbered">
+            {% for item in cart.cartitem_set.all %}
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">{{ item.product.name }}
+                            <code> at {{ item.updated_time }}</code>
+                        </div>
+                        Price: {{ item.price }}
                     </div>
-                    Price: {{ item.price }}
-                </div>
-                <span class="badge bg-primary rounded-pill">{{ item.quantity }}</span>
-            </li>
-        {% endfor %}
-    </ol>
+                    <span class="badge bg-primary rounded-pill">{{ item.quantity }}</span>
+                </li>
+            {% endfor %}
+        </ol>
 
-    <div class="d-grid gap-2 col-3 mt-4">
-        <a href="{% url 'product:checkout' %}" class="btn btn-primary" type="button">Order and clean cart</a>
-    </div>
+        <div class="d-grid gap-2 col-3 mt-4">
+            <a href="{% url 'product:create-checkout-session' %}" class="btn btn-primary" type="button">Order and clean
+                cart</a>
+        </div>
+    {% else %}
+
+        <div class="empty-cart text-center">
+            <h2 class="mb-3">Your cart is currently empty</h2>
+            <p class="text-muted">Add some amazing products to your cart and start shopping!</p>
+            <a href="{% url 'product:list' %}">Products</a>
+        </div>
+
+    {% endif %}
+
 
 {% endblock %}

@@ -189,6 +189,13 @@ STATICFILES_DIRS = [
     'static',
 ]
 
+# Stripe
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+BACKEND_DOMAIN = config("BACKEND_DOMAIN")
+PAYMENT_SUCCESS_URL = config("PAYMENT_SUCCESS_URL")
+PAYMENT_CANCEL_URL = config("PAYMENT_CANCEL_URL")
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

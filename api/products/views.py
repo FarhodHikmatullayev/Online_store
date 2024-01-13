@@ -1,3 +1,4 @@
+import stripe
 from rest_framework import status, filters
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
@@ -6,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.products.serializers import ProductSerializer, CartSerializer
+from config import settings
 from products.models import Product, Cart, CartItem
 from shared.pagination import CustomPagination
 

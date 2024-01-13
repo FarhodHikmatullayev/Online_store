@@ -40,6 +40,25 @@ body {
     /* Additional styling properties */
 }
 
+.empty-cart {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.empty-cart h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.empty-cart p {
+    font-size: 18px;
+    color: #888;
+}
+
 /*header {*/
 /*    background-color: #9FBDC1;*/
 /*    padding: 20px 10px;*/
