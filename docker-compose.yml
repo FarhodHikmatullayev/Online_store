@@ -19,7 +19,7 @@ services:
       - db
     env_file: .env
     environment:
-      DATABASE_URL: postgres://myuser:mypassword@db:5432/mydb
+      DATABASE_URL: postgres://farhod:farhod004@db:5432/mydb
     ports:
       - "8000:8000"
     volumes:
