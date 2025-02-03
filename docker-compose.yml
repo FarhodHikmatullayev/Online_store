@@ -5,6 +5,10 @@ services:
     image: postgres:15
     restart: always
     env_file: .env
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: farhod
+      POSTGRES_PASSWORD: farhod004
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
